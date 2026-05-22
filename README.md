@@ -1,7 +1,7 @@
 <div align="center">
 
 <!-- Animated SVG Header -->
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0096C7,100:48CAE4&height=220&section=header&text=🎴%20PPT%20Deck&fontSize=60&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=AI-Powered%20Presentation%20Generator&descSize=20&descAlignY=55" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0096C7,100:48CAE4&height=220&section=header&text=🎴%20DeckCraft&fontSize=60&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=AI-Powered%20Presentation%20Generator&descSize=20&descAlignY=55" width="100%"/>
 
 <!-- Typing Animation -->
 <a href="#-quick-start">
@@ -18,8 +18,8 @@
 
 <br/>
 
-[![Stars](https://img.shields.io/github/stars/mnknayeemintel/PPT-Deck?style=social)](https://github.com/mnknayeemintel/PPT-Deck)
-[![Forks](https://img.shields.io/github/forks/mnknayeemintel/PPT-Deck?style=social)](https://github.com/mnknayeemintel/PPT-Deck/fork)
+[![Stars](https://img.shields.io/github/stars/rioryugen/DeckCraft?style=social)](https://github.com/rioryugen/DeckCraft)
+[![Forks](https://img.shields.io/github/forks/rioryugen/DeckCraft?style=social)](https://github.com/rioryugen/DeckCraft/fork)
 
 </div>
 
@@ -218,8 +218,8 @@ PPT-Deck/
 
 ```bash
 # Clone the repository
-git clone https://github.com/mnknayeemintel/PPT-Deck.git
-cd PPT-Deck
+git clone https://github.com/rioryugen/DeckCraft.git
+cd DeckCraft
 
 # Install backend dependencies
 cd packages/api
@@ -259,8 +259,8 @@ npm run dev
 
 ```bash
 # Clone and run
-git clone https://github.com/mnknayeemintel/PPT-Deck.git
-cd PPT-Deck
+git clone https://github.com/rioryugen/DeckCraft.git
+cd DeckCraft
 
 # Set your API key
 echo "OPENAI_API_KEY=your-key-here" > .env
@@ -551,7 +551,7 @@ MIT License © 2026 **RioRyuGen**
 
 **RioRyuGen**
 
-[![GitHub](https://img.shields.io/badge/GitHub-RioRyuGen-181717?style=for-the-badge&logo=github)](https://github.com/mnknayeemintel)
+[![GitHub](https://img.shields.io/badge/GitHub-RioRyuGen-181717?style=for-the-badge&logo=github)](https://github.com/rioryugen)
 
 ---
 
