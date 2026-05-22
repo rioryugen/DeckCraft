@@ -1,0 +1,237 @@
+// Author: RioRyuGen
+// Date: 2026-05-22
+// Revision: 1.0.0
+
+import { setLLMConfig } from "@/state/slices/userConfig";
+import { store } from "@/state/store";
+import { LLMConfig } from "@/types/llm_config";
+
+function isProvided(value: unknown): boolean {
+  return value !== "" && value !== null && value !== undefined;
+}
+
+/**
+ * Returns a user-facing validation message, or null when the config is valid.
+ */
+export const getLLMConfigValidationError = (
+  llmConfig: LLMConfig
+): string | null => {
+  if (!llmConfig.LLM) {
+    return "Select a text provider.";
+  }
+
+  if (!llmConfig.DISABLE_IMAGE_GENERATION && !llmConfig.IMAGE_PROVIDER) {
+    return "Select an image provider, or turn off image generation.";
+  }
+
+  const llm = llmConfig.LLM;
+
+  if (llm === "openai") {
+    if (!isProvided(llmConfig.OPENAI_API_KEY)) {
+      return "OpenAI API key is required.";
+    }
+    if (!isProvided(llmConfig.OPENAI_MODEL)) {
+      return 'Text provider (OpenAI): choose a chat model on the Text Provider tab—use "Check models" after your API key, then pick a model. The model under Image Provider → Custom is only for image generation.';
+    }
+  } else if (llm === "google") {
+    if (!isProvided(llmConfig.GOOGLE_API_KEY)) {
+      return "Google API key is required.";
+    }
+    if (!isProvided(llmConfig.GOOGLE_MODEL)) {
+      return 'No Google model selected. Use "Check models" after entering your API key, then choose a model.';
+    }
+  } else if (llm === "vertex") {
+    const hasApiKey = isProvided(llmConfig.VERTEX_API_KEY);
+    const hasProject = isProvided(llmConfig.VERTEX_PROJECT);
+    const hasLocation = isProvided(llmConfig.VERTEX_LOCATION);
+    if (!hasApiKey && !hasProject) {
+      return "Vertex AI requires either a Vertex API key or a GCP project.";
+    }
+    if (hasApiKey && (hasProject || hasLocation)) {
+      return "Use either Vertex API key mode or project/location mode, not both.";
+    }
+    if (!isProvided(llmConfig.VERTEX_MODEL)) {
+      return "Vertex model is required.";
+    }
+  } else if (llm === "azure") {
+    if (!isProvided(llmConfig.AZURE_OPENAI_API_KEY)) {
+      return "Azure OpenAI API key is required.";
+    }
+
+    if (!isProvided(llmConfig.AZURE_OPENAI_ENDPOINT)) {
+      return "Azure endpoint is required.";
+    }
+
+    if (!isProvided(llmConfig.AZURE_OPENAI_API_VERSION)) {
+      return "Azure OpenAI API version is required.";
+    }
+
+    if (!isProvided(llmConfig.AZURE_OPENAI_MODEL)) {
+      return "Azure model name is required.";
+    }
+  } else if (llm === "openrouter") {
+    if (!isProvided(llmConfig.OPENROUTER_API_KEY)) {
+      return "OpenRouter API key is required.";
+    }
+    if (!isProvided(llmConfig.OPENROUTER_MODEL)) {
+      return "Select or enter an OpenRouter model id.";
+    }
+  } else if (llm === "cerebras") {
+    if (!isProvided(llmConfig.CEREBRAS_API_KEY)) {
+      return "Cerebras API key is required.";
+    }
+    if (!isProvided(llmConfig.CEREBRAS_MODEL)) {
+      return "Select or enter a Cerebras model id.";
+    }
+  } else if (llm === "anthropic") {
+    if (!isProvided(llmConfig.ANTHROPIC_API_KEY)) {
+      return "Anthropic API key is required.";
+    }
+    if (!isProvided(llmConfig.ANTHROPIC_MODEL)) {
+      return 'No Anthropic model selected. Use "Check models" after entering your API key, then choose a model.';
+    }
+  } else if (llm === "ollama") {
+    if (!isProvided(llmConfig.OLLAMA_URL)) {
+      return "Ollama server URL is required.";
+    }
+    if (!isProvided(llmConfig.OLLAMA_MODEL)) {
+      return "Select an Ollama model. If none appear, confirm Ollama is running and reachable.";
+    }
+  } else if (llm === "custom") {
+    if (!isProvided(llmConfig.CUSTOM_LLM_URL)) {
+      return "Enter your custom LLM endpoint URL (OpenAI-compatible).";
+    }
+    if (!isProvided(llmConfig.CUSTOM_MODEL)) {
+      return 'No model selected for your custom endpoint. Use "Check models" after entering the URL, then choose a model.';
+    }
+  } else if (llm === "litellm") {
+    if (!isProvided(llmConfig.LITELLM_BASE_URL)) {
+      return "LiteLLM base URL is required.";
+    }
+    if (!isProvided(llmConfig.LITELLM_MODEL)) {
+      return 'Use "Check models" after entering the base URL, then choose a model.';
+    }
+  } else if (llm === "codex" || llm === "chatgpt") {
+    if (!isProvided(llmConfig.CODEX_MODEL)) {
+      return "Select a Codex model.";
+    }
+  } else {
+    return "Unsupported or unknown text provider.";
+  }
+
+  if (!llmConfig.DISABLE_IMAGE_GENERATION) {
+    switch (llmConfig.IMAGE_PROVIDER) {
+      case "pexels":
+        if (!isProvided(llmConfig.PEXELS_API_KEY)) {
+          return "Pexels API key is required.";
+        }
+        break;
+      case "pixabay":
+        if (!isProvided(llmConfig.PIXABAY_API_KEY)) {
+          return "Pixabay API key is required.";
+        }
+        break;
+      case "dall-e-3":
+        if (!isProvided(llmConfig.OPENAI_API_KEY)) {
+          return "OpenAI API key is required for DALL·E 3.";
+        }
+        break;
+      case "gpt-image-1.5":
+        if (!isProvided(llmConfig.OPENAI_API_KEY)) {
+          return "OpenAI API key is required for GPT Image 1.5.";
+        }
+        break;
+      case "gemini_flash":
+        if (!isProvided(llmConfig.GOOGLE_API_KEY)) {
+          return "Google API key is required for Gemini Flash image generation.";
+        }
+        break;
+      case "nanobanana_pro":
+        if (!isProvided(llmConfig.GOOGLE_API_KEY)) {
+          return "Google API key is required for NanoBanana Pro.";
+        }
+        break;
+      case "comfyui":
+        if (!isProvided(llmConfig.COMFYUI_URL)) {
+          return "ComfyUI server URL is required.";
+        }
+        break;
+      case "open_webui":
+        if (!isProvided(llmConfig.OPEN_WEBUI_IMAGE_URL)) {
+          return "Open WebUI URL is required.";
+        }
+        break;
+      case "openai_compatible":
+        if (
+          !isProvided(llmConfig.OPENAI_COMPAT_IMAGE_BASE_URL?.trim()) ||
+          !isProvided(llmConfig.OPENAI_COMPAT_IMAGE_API_KEY?.trim()) ||
+          !isProvided(llmConfig.OPENAI_COMPAT_IMAGE_MODEL?.trim())
+        ) {
+          return "OpenAI-compatible image API requires base URL, API key, and model.";
+        }
+        break;
+      default:
+        return "Select a valid image provider.";
+    }
+  }
+
+  return null;
+};
+
+/** Codex is selected but no model chosen - block navigation away from Settings. */
+export function isCodexMissingSelectedModel(llmConfig: LLMConfig): boolean {
+  return llmConfig.LLM === "codex" && !isProvided(llmConfig.CODEX_MODEL);
+}
+
+/**
+ * While on Settings with Codex selected and no model (e.g. after sign-out),
+ * block leaving for non-Settings destinations.
+ */
+export function shouldBlockCodexOutboundNav(
+  llmConfig: LLMConfig,
+  destinationPath: string,
+  currentPathname: string | null
+): boolean {
+  if (!isCodexMissingSelectedModel(llmConfig)) return false;
+  const onSettings =
+    currentPathname === "/settings" ||
+    (currentPathname?.startsWith("/settings/") ?? false);
+  if (!onSettings) return false;
+  const path = destinationPath.split("?")[0] || "";
+  if (path === "/settings" || path.startsWith("/settings/")) return false;
+  return true;
+}
+
+/** Keep Redux in sync when Codex signs out so guards observe cleared CODEX_MODEL. */
+export function syncStoreAfterCodexSignOut(): void {
+  const prev = store.getState().userConfig.llm_config;
+  store.dispatch(
+    setLLMConfig({
+      ...prev,
+      LLM: "codex",
+      CODEX_MODEL: "",
+    })
+  );
+}
+
+export const handleSaveLLMConfig = async (llmConfig: LLMConfig) => {
+  const validationError = getLLMConfigValidationError(llmConfig);
+  if (validationError) {
+    throw new Error(validationError);
+  }
+
+  // Prefer shared API routes; fallback to Electron IPC for packaged compatibility.
+  if (typeof window !== "undefined" && window.electron?.setUserConfig) {
+    await window.electron.setUserConfig(llmConfig);
+  } else {
+    await fetch("/api/user-config", {
+      method: "POST",
+      body: JSON.stringify(llmConfig),
+    });
+  }
+
+  store.dispatch(setLLMConfig(llmConfig));
+};
+
+export const hasValidLLMConfig = (llmConfig: LLMConfig) =>
+  getLLMConfigValidationError(llmConfig) === null;

@@ -1,0 +1,17 @@
+{
+  "name": "deckcraft",
+  "author": "RioRyuGen",
+  "version": "1.0.0",
+  "presentationExportVersion": "v0.2.9",
+  "type": "module",
+  "description": "Open-source AI presentation generator",
+  "scripts": {
+    "sync:presentation-export": "node scripts/sync-presentation-export.cjs",
+    "sync:presentation-export:force": "node scripts/sync-presentation-export.cjs --force",
+    "check:presentation-export": "node scripts/sync-presentation-export.cjs --check-only"
+  },
+  "dependencies": {
+    "@llamaindex/liteparse": "^1.5.2",
+    "sharp": "^0.34.5"
+  }
+}

@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+.venv/
+__pycache__/
+*.egg-info/
+
+# Build outputs
+.next/
+.next-build/
+dist/
+out/
+build/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# App data
+app_data/
+*.db
+*.sqlite
+
+# Logs
+*.log
+npm-debug.log*
+
+# Package locks (regenerated per environment)
+package-lock.json
+uv.lock
