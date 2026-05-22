@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0096C7"/>
+      <stop offset="100%" style="stop-color:#48CAE4"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="16" fill="url(#bg)"/>
+  <g transform="translate(24, 24)" fill="white">
+    <!-- Slide shape -->
+    <rect x="8" y="12" width="64" height="48" rx="4" fill="none" stroke="white" stroke-width="4"/>
+    <!-- Play/Generate triangle -->
+    <polygon points="32,28 32,48 48,38" fill="white"/>
+    <!-- AI sparkle -->
+    <circle cx="60" cy="20" r="3" fill="white"/>
+    <circle cx="68" cy="12" r="2" fill="white" opacity="0.7"/>
+    <circle cx="72" cy="22" r="1.5" fill="white" opacity="0.5"/>
+  </g>
+  <text x="64" y="108" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">DeckCraft</text>
+</svg>

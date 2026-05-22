@@ -1,0 +1,138 @@
+{
+  "name": "deckcraft",
+  "displayName": "DeckCraft - AI Presentation Generator",
+  "description": "Generate professional presentations with AI directly from VS Code. Includes MCP server for Copilot integration.",
+  "version": "1.0.0",
+  "publisher": "RioRyuGen",
+  "author": {
+    "name": "RioRyuGen"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rioryugen/DeckCraft"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Machine Learning",
+    "Education"
+  ],
+  "keywords": [
+    "presentation",
+    "slides",
+    "powerpoint",
+    "pptx",
+    "ai",
+    "mcp",
+    "copilot"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "deckcraft.generatePresentation",
+        "title": "DeckCraft: Generate Presentation",
+        "icon": "$(file-media)"
+      },
+      {
+        "command": "deckcraft.generateFromSelection",
+        "title": "DeckCraft: Generate Presentation from Selection"
+      },
+      {
+        "command": "deckcraft.generateFromFile",
+        "title": "DeckCraft: Generate Presentation from File"
+      },
+      {
+        "command": "deckcraft.listPresentations",
+        "title": "DeckCraft: List Presentations"
+      },
+      {
+        "command": "deckcraft.setServerUrl",
+        "title": "DeckCraft: Set Server URL"
+      },
+      {
+        "command": "deckcraft.startMcpServer",
+        "title": "DeckCraft: Start MCP Server"
+      }
+    ],
+    "configuration": {
+      "title": "DeckCraft",
+      "properties": {
+        "deckcraft.serverUrl": {
+          "type": "string",
+          "default": "http://localhost:8000",
+          "description": "URL of the DeckCraft API server"
+        },
+        "deckcraft.username": {
+          "type": "string",
+          "default": "",
+          "description": "DeckCraft authentication username"
+        },
+        "deckcraft.defaultTemplate": {
+          "type": "string",
+          "default": "general",
+          "description": "Default presentation template"
+        },
+        "deckcraft.defaultTone": {
+          "type": "string",
+          "default": "professional",
+          "enum": ["default", "formal", "casual", "enthusiastic", "informative"],
+          "description": "Default presentation tone"
+        },
+        "deckcraft.defaultSlideCount": {
+          "type": "number",
+          "default": 5,
+          "description": "Default number of slides"
+        },
+        "deckcraft.mcpPort": {
+          "type": "number",
+          "default": 3099,
+          "description": "Port for the MCP server"
+        },
+        "deckcraft.autoStartMcp": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically start MCP server on extension activation"
+        }
+      }
+    },
+    "menus": {
+      "editor/context": [
+        {
+          "command": "deckcraft.generateFromSelection",
+          "when": "editorHasSelection",
+          "group": "deckcraft"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "deckcraft.generateFromFile",
+          "when": "resourceExtname == .md || resourceExtname == .txt",
+          "group": "deckcraft"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "node esbuild.config.js",
+    "watch": "node esbuild.config.js --watch",
+    "package": "vsce package",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.20.0",
+    "typescript": "^5.3.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  }
+}
